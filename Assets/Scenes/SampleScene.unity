@@ -205,13 +205,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 330585543}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.056248017, y: 0.66963404, z: -0.04755713, w: 0.7390296}
-  m_LocalPosition: {x: -4.09, y: 1.3600001, z: -1.7099999}
-  m_LocalScale: {x: 0.1, y: 0.099999994, z: 0.10000002}
+  m_LocalRotation: {x: 0.03125829, y: 0.69258535, z: -0.030627653, w: 0.72000724}
+  m_LocalPosition: {x: -5.03, y: 1.33, z: -0.31}
+  m_LocalScale: {x: 0.09999998, y: 0.06632799, z: 0.10000001}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1245032444}
-  m_LocalEulerAnglesHint: {x: 8.443, y: 84.381, z: 0.292}
+  m_LocalEulerAnglesHint: {x: 5.016, y: 87.774, z: -0.046}
 --- !u!114 &330585547
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -557,6 +557,7 @@ GameObject:
   - component: {fileID: 1245032442}
   - component: {fileID: 1245032441}
   - component: {fileID: 1245032445}
+  - component: {fileID: 1245032446}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -652,15 +653,15 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1245032440}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.75, y: 1.05, z: 3.34}
+  m_LocalRotation: {x: -0, y: -0.6953491, z: -0, w: 0.7186723}
+  m_LocalPosition: {x: 0.79864144, y: 5.17, z: 3.289727}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2031736045}
   - {fileID: 330585546}
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -88.11, z: 0}
 --- !u!114 &1245032445
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -673,11 +674,35 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e060b76af07f4d49ab95bbfa1e9d0be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerMovimiento
-  camara: {fileID: 330585546}
-  UsaGetAxisRaw: 1
-  velocidadMovimiento: 5
-  puedeMoverse: 1
-  Gravedad: -9
+  moveSpeed: 8.1
+  jumpForce: 31.75
+  gravityScale: 5
+  charController: {fileID: 1245032446}
+--- !u!143 &1245032446
+CharacterController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1245032440}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Height: 2.06
+  m_Radius: 0.55
+  m_SlopeLimit: 45
+  m_StepOffset: 0.3
+  m_SkinWidth: 0.08
+  m_MinMoveDistance: 0.001
+  m_Center: {x: -0.02, y: -0.02, z: 0}
 --- !u!1 &2031736041
 GameObject:
   m_ObjectHideFlags: 0
