@@ -11,9 +11,11 @@ public class PlayerControler : MonoBehaviour
     private Vector3 moveDirection;
 
     public CharacterController charController;
+    public Camera playerCamera;
+
     private void Start()
     {
-        
+
     }
 
     private void Update()
@@ -35,6 +37,7 @@ public class PlayerControler : MonoBehaviour
 
         charController.Move(moveDirection * Time.deltaTime);
 
+        transform.rotation = Quaternion.Euler(0f, playerCamera.transform.rotation.eulerAngles.y, 0f);
     }
 
 
