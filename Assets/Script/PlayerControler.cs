@@ -17,6 +17,8 @@ public class PlayerControler : MonoBehaviour
     public Camera playerCamera;
     public GameObject playerModel;
 
+    public Animator animator;
+
     private void Awake()
     {
         Instance = this;
@@ -52,13 +54,13 @@ public class PlayerControler : MonoBehaviour
 
 
         }
-       
+
 
         moveDirection.y += Physics.gravity.y * Time.deltaTime * gravityScale;
 
         charController.Move(moveDirection * Time.deltaTime);
 
-        if(Input.GetAxisRaw("Horizontal") != 0 || Input.GetAxisRaw ("Vertical") != 0)
+        if (Input.GetAxisRaw("Horizontal") != 0 || Input.GetAxisRaw("Vertical") != 0)
         {
 
             transform.rotation = Quaternion.Euler(0f, playerCamera.transform.rotation.eulerAngles.y, 0f);
@@ -66,7 +68,7 @@ public class PlayerControler : MonoBehaviour
             playerModel.transform.rotation = Quaternion.Slerp(playerModel.transform.rotation, newRotation, rotateSpeed * Time.deltaTime);
         }
 
-
+        animator.SetFloat("Speed", Mathf.Abs(moveDirection.x) + Mathf.Abs(moveDirection.z));
 
     }
 
