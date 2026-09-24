@@ -17,6 +17,9 @@ public class PlayerControler : MonoBehaviour
 
     public Animator animator;
 
+    // NUEVO: lo activa PlayerDash mientras dura el dash
+    [HideInInspector] public bool estaDasheando;
+
     private void Awake()
     {
         Instance = this;
@@ -27,8 +30,17 @@ public class PlayerControler : MonoBehaviour
 
     }
 
+    // NUEVO: PlayerDash lo llama al terminar para que no quede velocidad vertical acumulada
+    public void DetenerVelocidadVertical()
+    {
+        moveDirection.y = 0f;
+    }
+
     private void Update()
     {
+        // NUEVO: durante el dash, PlayerDash controla el movimiento
+        if (estaDasheando) return;
+
         float yStore = moveDirection.y;
 
         moveDirection = (transform.forward * Input.GetAxisRaw("Vertical")) + (transform.right * Input.GetAxisRaw("Horizontal"));
@@ -57,9 +69,9 @@ public class PlayerControler : MonoBehaviour
             playerModel.transform.rotation = Quaternion.Slerp(playerModel.transform.rotation, newRotation, rotateSpeed * Time.deltaTime);
         }
 
-       
+
         animator.SetFloat("Speed", Mathf.Abs(moveDirection.x) + Mathf.Abs(moveDirection.z));
-        animator.SetBool("IsGrounded", charController.isGrounded); 
+        animator.SetBool("IsGrounded", charController.isGrounded);
     }
 
 }
