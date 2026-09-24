@@ -72,7 +72,7 @@ public class GameManager : MonoBehaviour
     {
         if (coinText != null)
         {
-            coinText.text = "0 " + currentCoins;
+            coinText.text = "$" + currentCoins;
         }
         
     }
