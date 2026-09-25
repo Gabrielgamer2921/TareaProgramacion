@@ -1,7 +1,8 @@
 using System.Collections;
 using System.Linq.Expressions;
 using UnityEngine;
-using TMPro; // NUEVO: Importar la librería de TextMeshPro
+using UnityEngine.SceneManagement;
+using TMPro;
 
 public class GameManager : MonoBehaviour
 {
@@ -11,9 +12,22 @@ public class GameManager : MonoBehaviour
     public GameObject deathEffect;
 
     public int currentCoins;
+    public int currentGems;
 
-    // NUEVO: Referencia al elemento de texto en la pantalla
     public TextMeshProUGUI coinText;
+    public TextMeshProUGUI gemText;
+
+    // NUEVO: resumen de nivel / meta final
+    [Header("Meta final")]
+    public GameObject panelResumen;
+    public TextMeshProUGUI resumenMonedasText;
+    public TextMeshProUGUI resumenGemasText;
+    public TextMeshProUGUI resumenTiempoText;
+    [Tooltip("Segundos que se muestra el resumen antes de reiniciar el nivel.")]
+    public float tiempoAntesDeReiniciar = 4f;
+
+    [HideInInspector] public bool nivelCompletado;
+    private float tiempoTranscurrido;
 
     private void Awake()
     {
@@ -26,13 +40,18 @@ public class GameManager : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         respawnPosition = PlayerControler.Instance.transform.position;
 
-        // NUEVO: Asegurar que el texto empiece en 0 al iniciar el nivel
         UpdateCoinUI();
+        UpdateGemUI();
+
+        if (panelResumen != null)
+            panelResumen.SetActive(false);
     }
 
+    
     void Update()
     {
-
+        if (!nivelCompletado)
+            tiempoTranscurrido += Time.deltaTime;
     }
 
     public void Respawn()
@@ -67,13 +86,67 @@ public class GameManager : MonoBehaviour
         UpdateCoinUI();
     }
 
-    // NUEVO: Función dedicada a cambiar el texto visual
+
     private void UpdateCoinUI()
     {
         if (coinText != null)
         {
             coinText.text = "$" + currentCoins;
         }
+
+    }
+
+    public void AddGem(int amount)
+    {
+        currentGems += amount;
+
+        UpdateGemUI();
+    }
+
+    private void UpdateGemUI()
+    {
+        if (gemText != null)
+        {
+            gemText.text = currentGems.ToString();
+        }
+    }
+
+   
+    public void CompletarNivel()
+    {
+        if (nivelCompletado) return; 
+
+        nivelCompletado = true;
+
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
+
+        if (panelResumen != null)
+        {
+            panelResumen.SetActive(true);
+
+            if (resumenMonedasText != null) resumenMonedasText.text = currentCoins.ToString();
+            if (resumenGemasText != null) resumenGemasText.text = currentGems.ToString();
+            if (resumenTiempoText != null) resumenTiempoText.text = FormatearTiempo(tiempoTranscurrido);
+        }
+
+        Time.timeScale = 0f;
+        StartCoroutine(ReiniciarNivelTrasEspera());
+    }
+
+    private IEnumerator ReiniciarNivelTrasEspera()
+    {
         
+        yield return new WaitForSecondsRealtime(tiempoAntesDeReiniciar);
+
+        Time.timeScale = 1f;
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+
+    private string FormatearTiempo(float segundos)
+    {
+        int minutos = Mathf.FloorToInt(segundos / 60f);
+        int segs = Mathf.FloorToInt(segundos % 60f);
+        return string.Format("{0:00}:{1:00}", minutos, segs);
     }
 }
